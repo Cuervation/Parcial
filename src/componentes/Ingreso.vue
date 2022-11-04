@@ -2,10 +2,8 @@
   <section class="src-componentes-formulario">
     <div class="jumbotron">
       <h2>Ingreso de Gastos</h2>
-      <hr />
-      <hr />
+      <hr />      
       <br />
-
       <vue-form :state="formState" @submit.prevent="guardar()">
         <validate tag="div">
           <label for="nombre">Nombre</label>
@@ -19,8 +17,7 @@
             required
             :minlength="nombreMinLength"
             no-espacios
-          />
-          <!-- mensajes de validación -->
+          />          
           <field-messages name="nombre" show="$dirty">
             <div slot="required" class="alert alert-danger mt-1">
               Campo requerido
@@ -33,20 +30,20 @@
             </div>
           </field-messages>
         </validate>
+
         <br />
         <validate tag="div">
-          <label for="dni">DNI</label>
+          <label for="descripcion">Descripcion</label>
           <input
             type="text"
-            id="dni"
+            id="descripcion"
             class="form-control"
             autocomplete="off"
-            v-model.trim="formData.dni"
+            v-model.trim="formData.descripcion"
             name="nombre"
             required                        
-          />
-          <!-- mensajes de validación -->
-          <field-messages name="dni" show="$dirty">
+          />          
+          <field-messages name="descripcion" show="$dirty">
             <div slot="required" class="alert alert-danger mt-1">
               Campo requerido
             </div>
@@ -54,72 +51,70 @@
         </validate>
         <br>
         <validate tag="div">
-          <label for="pagar">Monto a pagar</label>
+          <label for="importe">Importe</label>
           <input 
             type="number" 
-            id="pagar" 
+            id="importe" 
             class="form-control" 
             autocomplete="off"
-            v-model.number="formData.pagar" 
-            name="pagar"
+            v-model.number="formData.importe" 
+            name="importe"
             required
           >
           <!-- mensajes de validación -->
-          <field-messages name="pagar" show="$dirty">
+          <field-messages name="importe" show="$dirty">
             <div slot="required" class="alert alert-danger mt-1">Campo requerido</div>
           </field-messages>
         </validate>
-        <br>
-        <validate tag="div">
-          <label for="pago">Pago realizado</label>
-          <input 
-            type="number" 
-            id="pago" 
-            class="form-control" 
-            autocomplete="off"
-            v-model.number="formData.pago" 
-            name="pago"
-            required
-          >
-          <!-- mensajes de validación -->
-          <field-messages name="pago" show="$dirty">
-            <div slot="required" class="alert alert-danger mt-1">Campo requerido</div>
-          </field-messages>
-        </validate>
-
-        <br>        
-        <button class="btn btn-info my-3" :disabled="formState.$invalid">
-          Guardar
+        <button class="btn btn-success my-3" :disabled="formState.$invalid">
+          Enviar
         </button>
-      </vue-form>
-    </div>
-
+      </vue-form>    
+      <br>
       <hr>
+      <hr> 
+      <h2>Detalle de Gastos</h2>    
+      <hr>
+      <div class="col-md-4">
+        <label for="presupuesto">Presupuesto</label>
+          <input 
+            type="number" 
+            id="presupuesto" 
+            class="form-control" 
+            autocomplete="off"            
+            v-model.number="presupuesto" 
+            placeholder="Ingrese el presupuesto"
+            name="presupuesto" 
+            @change=  analizarPresupuesto()
+            >
+        </div>
+      <hr>        
       
-      <div v-if="pagos.length" class="table-responsive" >
-          <table class="table table-blue">
+      <div v-if="gastos.length" class="table-responsive" >
+          <table class="table">
               <tr>                  
                   <th>Nombre</th>                  
-                  <th>DNI</th>
-                  <th>Monto a pagar</th>                  
-                  <th>Pago efectuado</th>                  
-                  <th>Fecha</th>                  
-                  <th>Saldo</th>                  
+                  <th>Descripcion</th>
+                  <th>Importe</th>                  
+                  <th>Fecha</th>                                    
               </tr>
-              <tr v-for="(pago,index) in pagos" :key="index" :style="{ 'color': calcularSaldo(pago).color }">                  
-                  <td>{{ pago.nombre }}</td>
-                  <td>{{ pago.dni }}</td>
-                  <td>{{ pago.pagar }}</td>
-                  <td>{{ pago.pago }}</td>
-                  <td>{{ pago.fecha }}</td>
-                  <td>{{ calcularSaldo(pago).deuda }}</td>
+              <tr v-for="(gastos,index) in gastos" :key="index">                  
+                  <td>{{ gastos.nombre }}</td>
+                  <td>{{ gastos.descripcion }}</td>
+                  <td>{{ "$" +  gastos.importe }}</td>
+                  <td>{{ gastos.fecha }}</td>                                    
               </tr>
+              <tr :style="{'font-weight': 'bold', 'color': analizarPresupuesto().color }" > 
+                  <td></td>                                    
+                  <td>TOTAL</td>                  
+                  <td>{{ "$" + this.sumaImporte }}</td>                                    
+              </tr>              
           </table>
       </div>
       <h4 v-else class="alert alert-danger text-center">
-        No se encuentran datos
+        No se encuentran gastos
       </h4>    
-
+  </div>
   </section>
 </template>
 
@@ -130,7 +125,9 @@ export default {
   mounted() {},
   data() {
     return {
-      pagos:[],
+      gastos:[],
+      sumaImporte : 0,
+      presupuesto:'',
       formState: {},
       formData: this.getInitialData(),
       nombreMinLength: 3,
@@ -140,30 +137,35 @@ export default {
     getInitialData() {
       return {
         nombre: null,
-        dni: null,
-        total: null,
-        pago: null,
+        descripcion: null,
+        importe: null,
+        fecha: null,        
       }
     },      
     guardar() {
-      let pago = { ...this.formData }
-      pago.fecha = new Date().toLocaleString()
-      this.pagos.push(pago);
+      let gasto = { ...this.formData }
+      gasto.fecha = new Date().toLocaleString()
+      this.sumaImporte += gasto.importe      
+      this.gastos.push(gasto);
+      console.log(this.presupuesto);
       this.formData = this.getInitialData();
       this.formState._reset();
       },
-      calcularSaldo(pago){
-        let deuda = pago.pago - pago.pagar
-        let color = 'green'
-        if (deuda < 0 ){
-          color = 'red'
-        }
-        else if (deuda > 0 ){
-          color =  'blue'
-        }
-        return { deuda, color }
+    analizarPresupuesto() {        
+      let color = 'orange'      
+      if (this.presupuesto > this.sumaImporte){
+        color = 'red'
+      }
+      else if(this.sumaImporte < 1000) color = 'green'
+      else if(this.sumaImporte <= 5000) color = 'magenta'
+      return {          
+        color
+      }
 
-      }         
+
+      
+
+    }
   },
   computed: {},
 };
@@ -173,19 +175,13 @@ export default {
 .src-componentes-formulario {
 }
 .jumbotron {
-  background-color: rgb(242, 187, 200);
-  color: rgb(45, 13, 125);
+  background-color: rgb(248, 245, 246);
+  color: rgb(6, 6, 6);
 }
 
 hr {
   background-color: #bbb;
 }
 
-pre {
-  color: white;
-}
-.table-blue {
-  background-color: rgb(193, 195, 214);
-  color: rgb(31, 12, 97);
-}
+
 </style>

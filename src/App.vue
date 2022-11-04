@@ -22,7 +22,7 @@ export default {
 
 <style>
   .jumbotron {
-    background-color: rgb(5, 5, 5);
-    color: rgb(256, 256, 256);
+    background-color: rgb(146, 16, 16);
+    color: rgb(0, 0, 0);
   }
 </style>

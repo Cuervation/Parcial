@@ -4,24 +4,18 @@
       <h2>Respuestas</h2>
       <hr />
 
-      <table class="table table-p">
-        <tr>
-          <th>Pregunta</th>
-          <th>Respuesta</th>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>A</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>C</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>B</td>
-        </tr>
-      </table>
+      <div v-if="preguntas.length" class="table-responsive" >
+          <table class="table">
+              <tr>                  
+                  <th>Número</th>                  
+                  <th>Respuesta</th>
+              </tr>
+              <tr v-for="(pregunta,index) in preguntas" :key="index">                  
+                  <td>{{ pregunta.numero }}</td>
+                  <td>{{ pregunta.respuestas }}</td>
+              </tr>
+          </table>
+      </div>
       <hr />
     </div>
   </section>
@@ -33,7 +27,13 @@ export default {
   props: [],
   mounted() {},
   data() {
-    return {};
+    return {
+      preguntas : [
+            { numero: 1, respuestas: ['b','d'] },
+            { numero: 2, respuestas: ['c'] },
+            { numero: 3, respuestas: ['b','e'] },
+    ]
+    };
   },
   methods: {},
   computed: {},
