@@ -69,7 +69,7 @@
             <div slot="required" class="alert alert-danger mt-1">Campo requerido</div>
           </field-messages>
         </validate>
-        <button class="btn btn-success my-3" :disabled="formState.$invalid">
+        <button class="btn btn-danger my-3" :disabled="formState.$invalid">
           Enviar
         </button>
       </vue-form>    
@@ -111,6 +111,7 @@
                   <td></td>                                    
                   <td>TOTAL</td>                  
                   <td>{{ "$" + this.sumaImporte }}</td>                                    
+                  <td></td>                                    
               </tr>              
           </table>
       </div>
@@ -178,7 +179,7 @@ export default {
 <style scoped lang="css">
 
   .jumbotron {
-    background-color: rgb(194, 198, 226);
+    background-color: rgb(207, 209, 224);
     color: rgb(45, 13, 125);
   }
 
