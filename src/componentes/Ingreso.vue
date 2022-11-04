@@ -176,16 +176,15 @@ export default {
 </script>
 
 <style scoped lang="css">
-.src-componentes-ingreso {
-}
-.jumbotron {
-  background-color: rgb(248, 245, 246);
-  color: rgb(6, 6, 6);
-}
 
-hr {
-  background-color: #bbb;
-}
+  .jumbotron {
+    background-color: rgb(194, 198, 226);
+    color: rgb(45, 13, 125);
+  }
+
+  hr {
+    background-color: #bbb;
+  }
 
 
 </style>

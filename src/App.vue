@@ -21,8 +21,7 @@ export default {
 </script>
 
 <style>
-  .jumbotron {
-    background-color: rgb(8, 8, 8) ;
-    /* color: rgb(7, 6, 6); */
+  .jumbotron {    
+    color: rgb(17, 16, 16); 
   }
 </style>

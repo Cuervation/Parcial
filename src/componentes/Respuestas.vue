@@ -5,7 +5,7 @@
       <hr />
 
       <div v-if="preguntas.length" class="table-responsive" >
-          <table class="table">
+          <table class="table table-dark">
               <tr>                  
                   <th>Número</th>                  
                   <th>Respuesta</th>
@@ -41,15 +41,13 @@ export default {
 </script>
 
 <style scoped lang="css">
-.src-componentes-respuestas {
-}
-.jumbotron {
-  background-color: rgb(45, 144, 139);
-  color: rgb(45, 13, 125);
-}
+  .jumbotron {
+    background-color: rgb(234, 198, 198);
+    color: rgb(45, 13, 125);
+  }
 
-hr {
-  background-color: #bbb;
-}
+  hr {
+    background-color: #bbb;
+  }
 
 </style>
