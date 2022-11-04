@@ -1,5 +1,5 @@
 <template>
-  <section class="src-componentes-resultados">
+  <section class="src-componentes-respuestas">
     <div class="jumbotron">
       <h2>Respuestas</h2>
       <hr />
@@ -23,7 +23,7 @@
 
 <script>
 export default {
-  name: "src-componentes-resultados",
+  name: "src-componentes-respuestas",
   props: [],
   mounted() {},
   data() {
@@ -41,10 +41,10 @@ export default {
 </script>
 
 <style scoped lang="css">
-.src-componentes-resultados {
+.src-componentes-respuestas {
 }
 .jumbotron {
-  background-color: rgb(198, 240, 238);
+  background-color: rgb(45, 144, 139);
   color: rgb(45, 13, 125);
 }
 
@@ -52,11 +52,4 @@ hr {
   background-color: #bbb;
 }
 
-pre {
-  color: white;
-}
-.table-p {
-  background-color: rgb(225, 201, 201);
-  color: rgb(31, 12, 97);
-}
 </style>

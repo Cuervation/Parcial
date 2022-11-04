@@ -1,5 +1,5 @@
 <template >
-  <section class="src-componentes-formulario">
+  <section class="src-componentes-ingreso">
     <div class="jumbotron">
       <h2>Ingreso de Gastos</h2>
       <hr />      
@@ -7,27 +7,30 @@
       <vue-form :state="formState" @submit.prevent="guardar()">
         <validate tag="div">
           <label for="nombre">Nombre</label>
-          <input
-            type="text"
-            id="nombre"
-            class="form-control"
+          <input 
+            type="text" 
+            id="nombre" 
+            class="form-control" 
             autocomplete="off"
-            v-model.trim="formData.nombre"
+            v-model.trim="formData.nombre" 
             name="nombre"
             required
             :minlength="nombreMinLength"
+            :maxlength="nombreMaxLength"
             no-espacios
-          />          
+          >          
           <field-messages name="nombre" show="$dirty">
-            <div slot="required" class="alert alert-danger mt-1">
-              Campo requerido
-            </div>
+            <div slot="required" class="alert alert-danger mt-1">Campo requerido</div>
             <div slot="minlength" class="alert alert-danger mt-1">
               Este campo debe poseer al menos {{ nombreMinLength }} caracteres.
             </div>
+            <div slot="maxlength" class="alert alert-danger mt-1">
+              Este campo no debe superar los {{ nombreMaxLength }} caracteres.
+            </div>            
             <div slot="no-espacios" class="alert alert-danger mt-1">
               Este campo no permite espacios intermedios
             </div>
+
           </field-messages>
         </validate>
 
@@ -40,7 +43,7 @@
             class="form-control"
             autocomplete="off"
             v-model.trim="formData.descripcion"
-            name="nombre"
+            name="descripcion"
             required                        
           />          
           <field-messages name="descripcion" show="$dirty">
@@ -120,7 +123,7 @@
 
 <script >
 export default {
-  name: "src-componentes-formulario",
+  name: "src-componentes-ingreso",
   props: [],
   mounted() {},
   data() {
@@ -131,6 +134,7 @@ export default {
       formState: {},
       formData: this.getInitialData(),
       nombreMinLength: 3,
+      nombreMaxLength: 15,
     };
   },
   methods: {
@@ -172,7 +176,7 @@ export default {
 </script>
 
 <style scoped lang="css">
-.src-componentes-formulario {
+.src-componentes-ingreso {
 }
 .jumbotron {
   background-color: rgb(248, 245, 246);
