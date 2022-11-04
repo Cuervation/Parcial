@@ -158,7 +158,7 @@ export default {
       },
     analizarPresupuesto() {        
       let color = 'orange'      
-      if (this.presupuesto < this.sumaImporte){
+      if (this.presupuesto < this.sumaImporte && this.presupuesto >0){
         color = 'red'
       }
       else if(this.sumaImporte < 1000) color = 'green'
